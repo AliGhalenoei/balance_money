@@ -1,0 +1,29 @@
+<div class="container mt-3" style="direction: rtl;"> 
+    <form action="" class="form-control" method="post">
+        {% csrf_token %}
+        <h3></h3>
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label"> نام کاربری | ایمیل </label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="نام کاربری یا ایمیل خود را وارد کنید" name="username">
+        </div>
+
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">گذرواژه</label>
+            <input type="password" class="form-control" id="exampleFormControlInput1" placeholder="گذرواژه خود را وارد کنید" name="password">
+        </div>
+
+        {% if form.username.errors %}
+        <small style="text-align: right;" class="text-danger"> {{form.username.errors}} </small>
+        {% endif %}
+
+
+        <input type="submit" class="form-control btn btn-outline-dark"  value="ورود">
+
+        <div class="mb-3 mt-2" style="text-align: right;">
+            <a href="{% url 'password_reset' %}" style="text-decoration: none;" > فراموشی گذرواژه </a> |  <a href="{% url 'register' %}" style="text-decoration: none;"> ثبت نام </a>   
+        </div>
+
+</form>
+
+
+</div>

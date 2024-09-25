@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block link %} 
+<link rel="stylesheet" type="text/css" href="{% static 'content/css/style.css' %}" />
+<link href="{% static 'content/images/favicon.png' %}" rel="shortcut icon" type="image/x-icon" />
+{% endblock %}
+
+{% block title %} Login {% endblock %}
+
+{% block content %}
+
+<div class="container" style="position: relative; top: -20px;">
+    <img class="ops" src="{% static 'content/images/404.svg' %}" />
+    <br />
+    <h3 class="mt-2" style="direction: rtl;">صفحه مورد نظر یافت نشد.
+        <br /> ممکن است به این دلیل باشد که url اشتباه است و یا در دسترس نیس</h3>
+    <br />
+    <a class="buton" href="{% url 'home' %}" style="position: relative; left: -12px;" >بازگشت به صفحه</a>
+</div>
+
+{% endblock %}
+
+
+
+
+

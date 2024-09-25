@@ -1,0 +1,240 @@
+{% extends 'base.html' %}
+{% load jalali_tags %}
+{% load static %}
+
+{% block title %} تراکنش ها {% endblock %}
+
+{% block link %} {% endblock %}
+
+
+{% block content %}
+
+<style>
+    .button-container {
+        
+        gap: 10px;
+        text-align: center;
+    }
+    .content {
+        display: none;
+        margin: auto;
+        padding: 1px;
+    }
+</style>
+
+    <br>
+    <div class="container text-center mt-4">
+            <div>
+                <button id="transaction" class="btn btn-primary w-50">افزودن تراکنش</button>
+            </div>
+
+            <div id="add_transaction" class="contentt w-50 mt-2" style="margin-inline: auto; display: none;">
+                <form method='post'>
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="عنوان تراکنش" name='title'>
+                    </div>
+        
+                    <select class="form-select" aria-label="Default select example" name="category">
+                        {% for i in form.category %}
+                            <option value="1">{{i}}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+                    <div class="mb-3" style="text-align: right;">
+                        {{form.date}}
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="مبلغ تراکنش" name='transaction'>
+                    </div>
+
+                    <select class="form-select" aria-label="Default select example" name="transaction_type">
+                        {% for i in form.transaction_type %}
+                            <option value="1">{{i}}</option>
+                        {% endfor %}
+                    </select>
+
+                    <div class="mb-3 mt-2">
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="توضیحات(اختیاری)" name="caption"></textarea>
+                      </div>
+
+                      <div class="mb-3" style="text-align: right;">
+                        <button type="submit" class="btn btn-outline-success"> تایید تراکنش </button>
+                        <button type="reset" class="btn btn-outline-danger">  پاک کردن </button>
+                      </div>
+                </form>
+         </div>
+
+        
+         <!-- Transactions -->
+        <div class="button-container mt-5 mb-2" style="text-align: center;">
+            <button id="btn1" class="btn btn-danger w-25"> هزینه ها</button>
+            <button id="btn2" class="btn btn-success w-25">درآمدها</button>
+        </div>
+        
+        <!-- costs box -->
+        <div id="content1" class="content w-50">
+            {% if costs %}
+                {% for i in costs %}
+                    <div class="card">
+                        <div class="card-body bg-danger" style="text-align: right;">
+                            <h5 class="card-title text-light"> عنوان تراکنش: {{i.title}} </h5>
+                            <p class="card-text text-light mb-0">در تاریخ : {{ i.date|to_jalali:'%y/%m/%d' }}</p>
+                            <p class="card-text text-light mt-0 mb-0"> برای : {{i.category}}</p>
+                            <p class="card-text text-light mt-0 mb-0"> به مبلغ: {{i.transaction}} تومان</p>
+                            <small class="text-light"> یادداشت: {{i.caption}} </small> <br>
+                        <a href="{% url 'delete_transaction' i.id %}" class="btn btn-outline-danger text-light" style="float: left;"> حذف </a>
+                        <button class="btn btn-outline-danger text-light" style="float: left;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
+                            ویرایش
+                        </button>
+
+                    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+                    <div class="offcanvas-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <form action="{% url 'edit_transaction' i.id %}" method="post">
+                            {% csrf_token %} 
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="عنوان تراکنش" name='title'>
+                            </div>
+                
+                            <select class="form-select" aria-label="Default select example" name="category">
+                                {% for i in edit_transaction_form.category %}
+                                    <option value="1">{{i}}</option>
+                                {% endfor %}
+                            </select>
+                            <br>
+                        
+                            <div class="mb-3">
+                                <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="مبلغ تراکنش" name='transaction'>
+                            </div>
+        
+                            <select class="form-select" aria-label="Default select example" name="transaction_type">
+                                {% for i in edit_transaction_form.transaction_type %}
+                                    <option value="1">{{i}}</option>
+                                {% endfor %}
+                            </select>
+        
+                            <div class="mb-3 mt-2">
+                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="توضیحات(اختیاری)" name="caption"></textarea>
+                              </div>
+        
+                              <div class="mb-3" style="text-align: right;">
+                                <button type="submit" class="btn btn-outline-success"> تایید تراکنش </button>
+                                <button type="reset" class="btn btn-outline-danger">  پاک کردن </button>
+                              </div>
+                        </form>
+                    </div>
+                    </div>
+
+
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                    <p class="mt-2"> هیچ تراکنشی یافت نشد </p>
+            {% endif %}
+        </div>
+
+        <!-- icomes box -->
+        <div id="content2" class="content w-50">
+            {% if incomes %}
+                {% for i in incomes %}
+                    <div class="card">
+                        <div class="card-body bg-success" style="text-align: right;">
+                            <h5 class="card-title text-light"> عنوان تراکنش: {{i.title}} </h5>
+                            <p class="card-text text-light mb-0">در تاریخ : {{ i.date|to_jalali:'%y/%m/%d' }}</p>
+                            <p class="card-text text-light mt-0 mb-0"> برای : {{i.category}}</p>
+                            <p class="card-text text-light mt-0 mb-0"> به مبلغ: {{i.transaction}} تومان</p>
+                            <small class="text-light"> یادداشت: {{i.caption}} </small> <br>
+                        <a href="{% url 'delete_transaction' i.id %}" class="btn btn-outline-success text-light" style="float: left;"> حذف </a>
+                        <button class="btn btn-outline-success text-light" style="float: left;" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
+                            ویرایش
+                          </button>
+                          
+                          <div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
+                            <div class="offcanvas-header">
+                              <h5 class="offcanvas-title" id="staticBackdropLabel"></h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            </div>
+                            <div class="offcanvas-body">
+                              <div>
+                                    <form action="{% url 'edit_transaction' i.id %}" method="post">
+                                        {% csrf_token %} 
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="عنوان تراکنش" name='title'>
+                                        </div>
+                            
+                                        <select class="form-select" aria-label="Default select example" name="category">
+                                            {% for i in edit_transaction_form.category %}
+                                                <option value="1">{{i}}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <br>
+                                        <div class="mb-3" style="text-align: right;">
+                                            {{ edit_transaction_form.date }}
+                                        </div>
+                    
+                                        <div class="mb-3">
+                                            <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="مبلغ تراکنش" name='transaction'>
+                                        </div>
+                    
+                                        <select class="form-select" aria-label="Default select example" name="transaction_type">
+                                            {% for i in edit_transaction_form.transaction_type %}
+                                                <option value="1">{{i}}</option>
+                                            {% endfor %}
+                                        </select>
+                    
+                                        <div class="mb-3 mt-2">
+                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="توضیحات(اختیاری)" name="caption"></textarea>
+                                          </div>
+                    
+                                          <div class="mb-3" style="text-align: right;">
+                                            <button type="submit" class="btn btn-outline-success"> تایید تراکنش </button>
+                                            <button type="reset" class="btn btn-outline-danger">  پاک کردن </button>
+                                          </div>
+                                    </form>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                    <p class="mt-2"> هیچ تراکنشی یافت نشد </p>
+            {% endif %}
+        </div>
+        
+        <script>
+            const btn1 = document.getElementById('btn1');
+            const btn2 = document.getElementById('btn2');
+            const content1 = document.getElementById('content1');
+            const content2 = document.getElementById('content2');
+        
+            btn1.onclick = function() {
+                content1.style.display = content1.style.display === 'block' ? 'none' : 'block';
+                content2.style.display = 'none';  // بستن محتوای دیگر
+            }
+        
+            btn2.onclick = function() {
+                content2.style.display = content2.style.display === 'block' ? 'none' : 'block';
+                content1.style.display = 'none';  // بستن محتوای دیگر
+            }
+        </script>
+        
+        <script>
+            document.getElementById('transaction').addEventListener('click', function() {
+            var addTransactionDiv = document.getElementById('add_transaction');
+            addTransactionDiv.style.display = (addTransactionDiv.style.display === 'none') ? 'block' : 'none';
+         });  
+        </script>
+
+        
+{% endblock %}
+
+
+
+
+

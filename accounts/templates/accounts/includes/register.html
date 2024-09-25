@@ -1,0 +1,58 @@
+<div class="container mt-3 p-2" style="direction: rtl;">
+    <form action="" class="form-control" method="post" novalidate>
+        {% csrf_token %}
+        <h2 style="text-align: center;">ثبت نام</h2>
+        <div class="mb-3 mt-2">
+            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="نام کاربری خود وارد کنید" name="username">
+            {% if form.username.errors %}
+            <small style="text-align: right;" class="text-danger"> {{form.username.errors}} </small>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="نام خود را وارد کنید" name="name">
+            {% if form.name.errors %}
+            <small style="text-align: right;" class="text-danger"> {{form.name.errors}} </small>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="نام خانوادگی خود را وارد کنید" name="lastname">
+            {% if form.lastname.errors %}
+            <small style="text-align: right;" class="text-danger"> {{form.lastname.errors}} </small>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="ایمیل خود را وارد کنید" name="email">
+            {% if form.email.errors %}
+            <small style="text-align: right;" class="text-danger"> {{form.email.errors}} </small>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <input type="password" class="form-control" id="exampleFormControlInput1" placeholder="گذرواژه" name="password">
+            {% if form.non_field_errors %}
+            <small style="text-align: right;" class="text-danger"> {{form.non_field_errors}} </small>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <input type="password" class="form-control" id="exampleFormControlInput1" placeholder="تکرار گذرواژه" name="password2">
+            {% if form.non_field_errors %}
+            <small style="text-align: right;" class="text-danger"> {{form.non_field_errors}} </small>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <input type="submit" class="form-control btn btn-outline-dark "  placeholder="تکرار گذرواژه" >
+        </div>
+
+        <div class="mb-3" style="text-align: right;">
+            <a href="{% url 'login' %}" style="text-decoration: none;"> حساب کاربری دارید؟ ورود </a>
+        </div>
+
+</form>
+
+
+</div>

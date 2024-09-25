@@ -1,0 +1,36 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary p-4" style="direction: ltr; z-index: 1;">
+    <div class="container-fluid">
+        <h3 id="shamsi-date" class="navbar-brand" style="position: relative; bottom: -5px"></h3>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          
+          {% if request.user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'transactions' %}">مدیریت تراکنش ها</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" style="position: relative; bottom: -2px;" href="{% url 'categorys' %}">دسته ها</a>
+          </li>
+          <li class="nav-item">
+
+          <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'logout' %}" style="text-align: right;"> خروج </a>
+          </li>  
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<script>
+    function getShamsiDate() {
+        const today = new Date();
+        const options = { year: 'numeric', month: 'numeric', day: 'numeric', calendar: 'persian' };
+        return today.toLocaleDateString('fa-IR', options);
+    }
+
+    document.getElementById('shamsi-date').textContent = getShamsiDate();
+</script>

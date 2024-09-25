@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تاریخ شمسی امروز</title>
+</head>
+<body>
+    <h3 id="shamsi-date"></h3>
+
+    <script>
+        function getShamsiDate() {
+            const today = new Date();
+            const options = { year: 'numeric', month: 'numeric', day: 'numeric', calendar: 'persian' };
+            return today.toLocaleDateString('fa-IR', options);
+        }
+
+        document.getElementById('shamsi-date').textContent = getShamsiDate();
+    </script>
+</body>
+</html>

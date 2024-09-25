@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load saving %}
+
+{% block title %} خانه {% endblock %}
+
+{% block content %}
+
+    <h6 style="text-align: center;" class="mt-4">خوش آمدی {{user.name}} {{user.lastname}}</h6>
+    <br>
+
+    <h2 style="text-align: center;" >موجودی حساب : {% user_money request.user.id %} تومان</h2>
+    <br><br>
+
+    <style>
+        .button-container {
+        
+        gap: 10px;
+        text-align: center;
+        }
+        .content {
+            display: none;
+            margin: auto;
+            padding: 1px;
+        }
+    </style>
+
+
+<div class="button-container mt-5 mb-2" style="text-align: center;">
+    <button id="btn1" class="btn btn-primary w-50"> وضعیت ماه جاری </button>
+    
+</div>
+
+<div id="content1" class="content w-75"> {% include 'content/includes/income_chart.html' %} </div>
+
+
+<script>
+    const btn1 = document.getElementById('btn1');
+    const btn2 = document.getElementById('btn2');
+    const content1 = document.getElementById('content1');
+    const content2 = document.getElementById('content2');
+
+    btn1.onclick = function() {
+        content1.style.display = content1.style.display === 'block' ? 'none' : 'block';
+        content2.style.display = 'none';  // بستن محتوای دیگر
+    }
+
+    btn2.onclick = function() {
+        content2.style.display = content2.style.display === 'block' ? 'none' : 'block';
+        content1.style.display = 'none';  // بستن محتوای دیگر
+    }
+</script>
+        
+{% endblock %}
+
+
+
+
+
